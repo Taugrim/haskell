@@ -179,17 +179,20 @@ sortt (x : []) = [x]
 
 insertl :: (Ord a) => [a] -> [[a]] -> [[a]]
 insertl x (xs : xss)
-  | length x >length xs = x : insertl xs xss
+  | length x > length xs = x : insertl xs xss
   | otherwise = xs : insertl x xss
 insertl x [] = [x]
 
 sortl [] = []
 sortl (x : xs) = insertl x (sortl xs)
-myGCD::Integer->Integer->Integer
-myGCD x 0=x
-myGCD 0 _=0
-myGCD x y=myGCD y (mod x y)
 
+myGCD :: Integer -> Integer -> Integer
+myGCD x 0 = x
+myGCD 0 _ = 0
+myGCD x y = myGCD y (mod x y)
 
-
-
+coprime :: Integer -> Integer -> Bool
+coprime x y
+  | (myGCD x y) == 1 = True
+  | otherwise = False
+  
