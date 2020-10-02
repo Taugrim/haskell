@@ -185,3 +185,11 @@ insertl x [] = [x]
 
 sortl [] = []
 sortl (x : xs) = insertl x (sortl xs)
+myGCD::Integer->Integer->Integer
+myGCD x 0=x
+myGCD 0 _=0
+myGCD x y=myGCD y (mod x y)
+
+
+
+
