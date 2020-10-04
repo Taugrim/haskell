@@ -195,4 +195,8 @@ coprime :: Integer -> Integer -> Bool
 coprime x y
   | (myGCD x y) == 1 = True
   | otherwise = False
-  
+
+
+totient::Int->Int
+totient x=length [a|a<-[1..x],coprime (toInteger x) (toInteger a) ]
+
