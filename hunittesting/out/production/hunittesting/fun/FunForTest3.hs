@@ -1,6 +1,6 @@
-module FunForTest3 ( fft1
+module FunForTest3 ( fft3
                        ) where
 
-fft1::String
-fft1 ="fft1"
+fft3::String
+fft3 ="fft3"
 

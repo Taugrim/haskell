@@ -1,7 +1,7 @@
 module Main where
 
 import Lib
---import FUN.FunForTest1
-import FunForTest1
+import FunForTest
+import FunForTest3
 main :: IO ()
 main = someFunc

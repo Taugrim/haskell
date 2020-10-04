@@ -22,7 +22,7 @@ description:         Please see the README on GitHub at <https://github.com/Gith
 dependencies:
 - base >= 4.7 && < 5
 library:
-  source-dirs: src,fun
+  source-dirs: src
 
 executables:
   hunittesting-exe:
@@ -34,8 +34,8 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - hunittesting
-    - FunForTest
-    - FunForTest3
+#    - FunForTest
+#    - FunForTest3
 
 tests:
   hunittesting-test:
@@ -47,7 +47,7 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - hunittesting
-    - FunForTest
-    - FunForTest3
-    - Hunit
+#    - FunForTest
+#    - FunForTest3
+    - HUnit
 
