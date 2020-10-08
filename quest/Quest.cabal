@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 9978a4a54108c372e7d2e67933bd3f7b63fded3346dda524f1927182f34a81aa
+-- hash: 6dfec7c512f7afc7eed85914de3ac98347ebf83597daf325665a27cb2f28b80d
 
 name:           Quest
 version:        0.1.0.0
@@ -27,13 +27,18 @@ source-repository head
 
 library
   exposed-modules:
+      Lib
       Quest
+      S1
+      Stepic
   other-modules:
       Paths_Quest
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+      ,time
+      ,old-locale
   default-language: Haskell2010
 
 executable Quest-exe
@@ -46,6 +51,8 @@ executable Quest-exe
   build-depends:
       Quest
     , base >=4.7 && <5
+    ,time
+    ,old-locale
   default-language: Haskell2010
 
 test-suite Quest-test
@@ -59,4 +66,6 @@ test-suite Quest-test
   build-depends:
       Quest
     , base >=4.7 && <5
+    ,time
+    ,old-locale
   default-language: Haskell2010
