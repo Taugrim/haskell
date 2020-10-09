@@ -1,6 +1,11 @@
+--{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE FlexibleInstances #-}
+
 import Data.Char(isDigit, Char)
 import Data.Maybe
 import Prelude
+import Prelude ((.))
 findDigit :: [Char] -> Maybe Char
 findDigit w@(x:xs)= fd False w ' ' where
                                   fd::Bool->[Char]->Char->Maybe Char
@@ -116,9 +121,39 @@ eitherToMaybe :: Either a a-> Maybe a
 eitherToMaybe (Left a) = Just a
 eitherToMaybe (Right _) = Nothing
 
-data Coord a = Coord a !a
+data Coord a = Coord a !a 
 getX :: Coord a -> a
 getX (Coord x _) = x
 
 getY :: Coord a -> a
 getY (Coord _ y) = y
+
+
+data Point3D a = Point3D a a a deriving Show
+
+instance Functor Point3D where
+    fmap f (Point3D x y z) = Point3D (f x)(f y)(f z)
+data GeomPrimitive a = Point (Point3D a) | LineSegment (Point3D a) (Point3D a)deriving Show
+instance Functor GeomPrimitive where
+    fmap f (Point a)=Point (fmap f a)
+    fmap f (LineSegment a b)=LineSegment (fmap f a) (fmap f b )
+    
+
+
+data Tree a = Leaf (Maybe a) | Branch (Tree a) (Maybe a) (Tree a) deriving Show
+instance Functor Tree where
+    fmap f (Leaf a) =Leaf (fmap f a)
+    fmap f (Branch a b c) =Branch  (fmap f a)(fmap f b)(fmap f c)
+
+
+
+
+--instance Functor ((,) a) where
+--    fmap f (x,y) =(x,f y)
+--data Entry k1 k2= Entry (k1, k2)   deriving Show
+data Entry k1 k2 v = Entry (k1, k2) v  deriving Show
+data Map k1 k2 v = Map [Entry k1 k2 v]  deriving Show
+instance Functor (Entry k1 k2) where
+    fmap f (Entry k1 k2 ) = Entry k1 (f k2)
+instance Functor (Map k1 k2) where
+    fmap f (Map x )= Map (map (fmap f ) x)
