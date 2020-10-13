@@ -4,8 +4,8 @@
 
 import Data.Char(isDigit, Char)
 import Data.Maybe
-import Prelude
 import Prelude ((.))
+import Prelude hiding (return,(>>=))
 findDigit :: [Char] -> Maybe Char
 findDigit w@(x:xs)= fd False w ' ' where
                                   fd::Bool->[Char]->Char->Maybe Char
@@ -157,3 +157,54 @@ instance Functor (Entry k1 k2) where
     fmap f (Entry k1 k2 ) = Entry k1 (f k2)
 instance Functor (Map k1 k2) where
     fmap f (Map x )= Map (map (fmap f ) x)
+
+
+data Log a = Log [String] a deriving Show
+instance Functor (Log) where
+    fmap f (Log k1 k2 ) = Log k1 (f k2)
+instance Applicative Log where
+pure = Log
+(<*>)  f = fmap f
+toLogger :: (a -> b) -> String -> (a -> Log b)
+toLogger f str=fmap (Log [str]) f 
+add1Log = toLogger (+1) "added one"
+mult2Log = toLogger (* 2) "multiplied by 2"
+
+execLoggers :: a -> (a -> Log b) -> (b -> Log c) -> Log c
+execLoggers x f1 f2= l3 l1 (l2 l1) where 
+                                l1= f1 x
+                                l2 (Log s a)=f2 a
+                                l3 (Log s a)(Log s1 a1)=Log (s++s1) a1
+returnLog :: a -> Log a
+returnLog = Log []  
+
+bindLog :: Log a -> (a -> Log b) -> Log b
+bindLog  (Log s a) f=  Log (s++s1) b where  Log s1 b= f a     
+
+
+instance Monad Log where 
+return=returnLog
+(>>=)=bindLog
+
+
+execLoggersList :: a -> [a -> Log a] -> Log a             
+execLoggersList  a fa=foldl ((>>=)) (return a)  fa
+--data SomeType a = undefined
+--instance Functor SomeType where
+--    fmap f x =x (>>=)\y->return(f y)(>>=)
+   
+data Token = Number Int | Plus | Minus | LeftBrace | RightBrace 
+    deriving (Eq, Show)
+    
+iid w@(x:xs)|isDigit x=iid xs
+          |otherwise =False
+iid []=True
+instance Monad  Token where
+return "+"=Just Plus
+--return "-"=Just Minus
+--return "("=Just LeftBrace
+--return ")"=Just RightBrace
+--return  x= Just (read x::Int)
+fail =Nothing
+asToken :: String -> Maybe Token
+asToken =return
