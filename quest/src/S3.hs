@@ -2,6 +2,7 @@
 
 module S3 where
 
+import Text.Printf
 import Data.Char (Char, isDigit)
 import Data.Maybe (fromJust)
 
@@ -42,3 +43,18 @@ tokenize input =foldr f (return []) (words input) where
 --                                      inp (x:[])=Just [fromJust x]
 --                                      inp w@(x:xs)| ( filter( \x->x==Nothing) w)==[]=Just (fromJust x:fromJust(inp xs))
 --                                                  |  otherwise=Nothing
+--ss::IO Char->IO Char
+ss ch|ch==' '= error "sfsf"
+
+ss ch= ch
+m =do
+      putStrLn "What is your name?"
+      putStr "Name: "
+
+      let
+      ss str |str=='\n'=ss getChar
+             |otherwise= str
+      in s<-ss getChar
+      nm<-  getLine
+      putStrLn $ "Hi, "++(s:nm)++" !"
+

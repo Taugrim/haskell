@@ -84,3 +84,4 @@ add _ _= error"ssdsdd"
 
 mul :: Z -> Z -> Z
 mul = undefined
+d= foldl
