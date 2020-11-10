@@ -47,14 +47,30 @@ tokenize input =foldr f (return []) (words input) where
 ss ch|ch==' '= error "sfsf"
 
 ss ch= ch
-m =do
-      putStrLn "What is your name?"
-      putStr "Name: "
+st=do
+    putStrLn "What is your name?"
+    putStr "Name: "
+    nm<-getChar
+    if nm=='\n' then
+      st
+      else do
+      s<-getLine
+      return (nm:s)
 
-      let
-      ss str |str=='\n'=ss getChar
-             |otherwise= str
-      in s<-ss getChar
-      nm<-  getLine
-      putStrLn $ "Hi, "++(s:nm)++" !"
+
+m =do
+
+   c<-st
+   putStrLn $ "Hi, "++c++"!"
+
+--     help s
+--          where
+--          help ""=st
+--           help s =s
+--    n<- (help "")
+-- --   n<-let
+-- --          help ""=st
+-- --          help s =return s
+-- --          in help ""
+--    putStrLn $ "Hi,  !"
 
