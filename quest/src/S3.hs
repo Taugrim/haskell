@@ -5,6 +5,8 @@ module S3 where
 import Text.Printf
 import Data.Char (Char, isDigit)
 import Data.Maybe (fromJust)
+import Data.List
+import System.Directory
 
 data Token = Number Int | Plus | Minus | LeftBrace | RightBrace
   deriving (Eq, Show)
@@ -62,15 +64,21 @@ m =do
 
    c<-st
    putStrLn $ "Hi, "++c++"!"
+rmF file= do
+              putStrLn $"Removing file:"++ file
+              removeFile file
+delF= do
+         putStr "Substring: "
+         nm<-getChar
+         if nm=='\n' then
+               putStrLn "Canceled"
+               else do
+                      s<-getLine
+                      lf<- fmap (fmap (filter (isInfixOf s))) getDirectoryContents"."
+                      mapM_  rmF lf
 
---     help s
---          where
---          help ""=st
---           help s =s
---    n<- (help "")
--- --   n<-let
--- --          help ""=st
--- --          help s =return s
--- --          in help ""
---    putStrLn $ "Hi,  !"
-
+--filter (isInfixOf "V1") (getDirectoryContents getCurrentDirectory)
+--getDirectoryContents "/home/q/git/haskell/quest/src"
+--
+--filt a= filter (isInfixOf a) ["S1.hs",".","Stepic.hs","..","S3.hs","Quest.hs","S2.hs"]
+--filt a= filter (isInfixOf "S1") ["S1.hs",".","Stepic.hs","..","S3.hs","Quest.hs","S2.hs"]
