@@ -64,9 +64,7 @@ m =do
 
    c<-st
    putStrLn $ "Hi, "++c++"!"
-rmF file= do
-              putStrLn $"Removing file:"++ file
-              removeFile file
+
 delF= do
          putStr "Substring: "
          nm<-getChar
@@ -75,7 +73,7 @@ delF= do
                else do
                       s<-getLine
                       lf<- fmap (fmap (filter (isInfixOf s))) getDirectoryContents"."
-                      mapM_  rmF lf
+                      mapM_ (\x -> putStrLn ("Removing file: " ++ x) >> removeFile x)  lf
 
 --filter (isInfixOf "V1") (getDirectoryContents getCurrentDirectory)
 --getDirectoryContents "/home/q/git/haskell/quest/src"
