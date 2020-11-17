@@ -7,7 +7,8 @@ import Data.Char (Char, isDigit)
 import Data.Maybe (fromJust)
 import Data.List
 import System.Directory
-
+import Control.Monad
+import Control.Monad.Reader
 data Token = Number Int | Plus | Minus | LeftBrace | RightBrace
   deriving (Eq, Show)
 
@@ -75,8 +76,15 @@ delF= do
                       lf<- fmap (fmap (filter (isInfixOf s))) getDirectoryContents"."
                       mapM_ (\x -> putStrLn ("Removing file: " ++ x) >> removeFile x)  lf
 
---filter (isInfixOf "V1") (getDirectoryContents getCurrentDirectory)
+--filter (isInfixOf "V1") (getDirectoryContents getCurrentDirectory)прсш
 --getDirectoryContents "/home/q/git/haskell/quest/src"
 --
 --filt a= filter (isInfixOf a) ["S1.hs",".","Stepic.hs","..","S3.hs","Quest.hs","S2.hs"]
 --filt a= filter (isInfixOf "S1") ["S1.hs",".","Stepic.hs","..","S3.hs","Quest.hs","S2.hs"]
+data Reader' r a = Reader' { runReader' :: (r -> a) }
+
+instance Monad (Reader' r) where
+  return x = Reader' $ \_ -> x
+  m >>= k  = Reader' $ \r -> runReader' (k (runReader' m r)) r
+local' :: (r -> r') -> Reader r' a -> Reader r a
+local' f m =  Reader $ \e ->runReader m (f e)
